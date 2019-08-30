@@ -1,0 +1,16 @@
+.tblrow:hover{
+    background-color: lightgray;
+    cursor: pointer;
+}
+Label{
+    font-size:12px;
+}
+/*Label{
+    margin-top:-10px; 
+    margin-bottom: -5px;
+}*/
+Input{
+    margin-top:-8px;
+   
+}
+
