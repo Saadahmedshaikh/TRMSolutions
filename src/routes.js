@@ -5,6 +5,7 @@ import Equipment from './views/EquipmentManagement/Equipment';
 import EquipmentDetails from './views/EquipmentManagement/EquipmentDetails';
 import Company from './views/Company/Company';
 import AddUser from './views/User/AddUser';
+import UserList from './views/User/UserList';
 
 const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/Base/Cards'));
@@ -90,6 +91,7 @@ const routes = [
   { path: '/EquipmentManagement/EquipmentDetails', name: 'EquipmentDetails', component: EquipmentDetails },
   { path: '/Company', name: 'Company', component: Company },
   { path: '/AddUser', name: 'AddUser', component: AddUser },
+  { path: '/UserList', name: 'UserList', component: UserList },
 ];
 
 export default routes;

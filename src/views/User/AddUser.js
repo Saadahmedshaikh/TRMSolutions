@@ -46,6 +46,7 @@ constructor(props){
     this.handleChange=this.handleChange.bind(this);
     this.toggleSuccess = this.toggleSuccess.bind(this);
     this.toggleDanger = this.toggleDanger.bind(this);
+    this.onClear = this.onClear.bind(this);
 }
 toggleDanger() {
     this.setState({
@@ -119,10 +120,18 @@ handleChange(event){
          [nam]:val
      })
 }
+onClear(event){
+   
+    
+    this.setState({
+        danger:false
+    })
+    document.getElementById("form1").reset();
+}
 render(){
     if(this.state.flag){
         return(
-            <Redirect to="/Company"/>
+            <Redirect to="/UserList"/>
         )
     }
     return (
@@ -133,7 +142,7 @@ render(){
                 <Card>
                     <CardHeader>New User</CardHeader>
                     <CardBody>
-                        <Form className="form-horizontal" >
+                        <Form className="form-horizontal" id="form1">
                             <Row>
                                 <Col md="6">
                                     <FormGroup row>
@@ -255,12 +264,12 @@ render(){
 
                 <Modal isOpen={this.state.danger} toggle={this.toggleDanger}
                        className={'modal-danger ' + this.props.className}>
-                  <ModalHeader toggle={this.toggleSuccess}>Error</ModalHeader>
+                  <ModalHeader toggle={this.toggleDanger}>Error</ModalHeader>
                   <ModalBody>
                     Something went Wrong
                   </ModalBody>
                   <ModalFooter>
-                  <Button type="button" color="danger" onClick={this.toggleDanger}>Ok</Button>
+                  <Button type="button" color="danger" onClick={this.onClear}>Ok</Button>
                   </ModalFooter>
                 </Modal>
 

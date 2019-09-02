@@ -230,33 +230,6 @@ export default {
       ]
     },
     {
-      name: 'User Management',
-      url: '/theme/typography',
-      icon: 'icon-user',
-      children: [
-        {
-          name: 'User Notification Management',
-           url: '/Dashboard',
-          icon: 'icon-arrow-right',
-        },
-        {
-          name: 'New User',
-           url: '/AddUser',
-          icon: 'icon-arrow-right',
-        },
-        {
-          name: 'User Group',
-           url: '/Dashboard',
-          icon: 'icon-arrow-right',
-        },
-        {
-          name: 'Reset Password',
-           url: '/Dashboard',
-          icon: 'icon-arrow-right',
-        }
-      ]
-    },
-    {
       name: 'Inspection Management',
       url: '/theme/typography',
       icon: 'icon-graph',
@@ -284,6 +257,23 @@ export default {
         {
           name: 'Critical Instrument Register',
            url: '/Dashboard',
+          icon: 'icon-arrow-right',
+        }
+      ]
+    },
+    {
+      name: 'User Management',
+      url: '/theme/typography',
+      icon: 'icon-user',
+      children: [
+        {
+          name: 'New User',
+           url: '/AddUser',
+          icon: 'icon-arrow-right',
+        },
+        {
+          name: 'View Users',
+           url: '/UserList',
           icon: 'icon-arrow-right',
         }
       ]
