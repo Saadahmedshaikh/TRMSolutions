@@ -1,16 +1,9 @@
-.tblrow:hover{
-    background-color: lightgray;
+#hoverrow{
     cursor: pointer;
 }
-Label{
-    font-size:12px;
+#hoverrow:hover{
+    background-color: #f0f3f5;
 }
-/*Label{
-    margin-top:-10px; 
-    margin-bottom: -5px;
-}*/
-Input{
-    margin-top:-8px;
-   
+#tableth{
+    text-align: center;
 }
-

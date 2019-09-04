@@ -463,6 +463,7 @@ class Dashboard extends Component {
     this.state = {
       count:'',
       users:'',
+      equipments:'',
       dropdownOpen: false,
       radioSelected: 2,
     };
@@ -478,6 +479,12 @@ class Dashboard extends Component {
     .then(response => {
       this.setState({
         users:response.data
+      })
+    })
+    Axios.get('http://localhost:37329/Equipment/countEquipments')
+    .then(response => {
+      this.setState({
+        equipments:response.data
       })
     })
     console.log(this.state.count);
@@ -567,8 +574,8 @@ class Dashboard extends Component {
                     </DropdownMenu>
                   </Dropdown>
                 </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Members online</div>
+                <div className="text-value">{this.state.equipments}</div>
+                <div>Total Equipments</div>
               </CardBody>
               <div className="chart-wrapper" style={{ height: '70px' }}>
                 <Line data={cardChartData3} options={cardChartOpts3} height={70} />

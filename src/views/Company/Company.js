@@ -27,22 +27,15 @@ class Company extends Component{
         this.state={
             company:[],
             companies:[],
-            modal: false,
             success:false,
             danger:false,
             redirect:false,
             i:1
         
         }
-        this.toggle = this.toggle.bind(this);
         this.toggleSuccess = this.toggleSuccess.bind(this);
         this.toggleDanger = this.toggleDanger.bind(this);
     }
-    toggle() {
-        this.setState({
-          modal: !this.state.modal,
-        });
-      }
       toggleSuccess() {
         this.setState({
           success: !this.state.success,
@@ -68,19 +61,24 @@ class Company extends Component{
     }
 
     addCompany=(event)=>{
-        this.toggle();    
+      
         var name = document.getElementById("Name").value;
         var loc = document.getElementById("loc").value;
+        var desc = document.getElementById("description").value;
+        var phone = document.getElementById("phone").value;
            const company = {
                "CompanyID":"",
                "CompanyName":name,
-               "CompanyAddress":loc
+               "CompanyLocation":loc,
+               "CompanyDescription":desc,
+               "CompanyPhone":phone
            }
            
            Axios.post("http://localhost:37329/Country/Add",company)
   .then(response=> {
       if(response.status=='201'){
         this.toggleSuccess();
+        document.getElementById("form1").reset();
       }
    
   })
@@ -108,52 +106,21 @@ class Company extends Component{
 
         return(
             <>
+            
             <Row>
-               <Col md="8"></Col>
-               <Col md="2">
-                   <Button type="button" size="lg" color="primary" onClick={this.toggle}>Add New Company</Button><br/>
-               </Col>
-               </Row>
-               <Row>
-               <Col md="2"></Col>
-               <Col md="8">
-                   <br/>
-                   <Card>
-                       <CardHeader><h3>Companies</h3></CardHeader>
-                       <CardBody>
-                
-                   <Table striped>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Company Name</th>
-                        <th>Company Location</th>
-                    </tr>
-                    {
-                        
-                        this.state.companies.map((country,i)=>{
-                            
-                            
-                            i++;
-                            return(
-                                <tr>
-                                    <td>{i}</td>
-                                    <td>{country.CompanyName}</td>
-                                    <td>{country.CompanyAddress}</td>
-                                </tr>
-                            )
-                        })
-                    }
-                   </Table>
-                   </CardBody>
-                   </Card>
-               </Col>
-               </Row>
+                <Col md="2">
 
-               <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                  <ModalHeader toggle={this.toggle}>New Company</ModalHeader>
-                  <ModalBody>
-                  <Form className="form-horizontal" id="form1">
-                                <FormGroup row>
+                </Col>
+                <Col md="8">
+                <Card>
+                    <CardHeader>
+                    <h3>New Company</h3>
+                    </CardHeader>
+                    <CardBody>
+                    <Form className="form-horizontal" id="form1">
+                        <Row>
+                            <Col md="6">
+                            <FormGroup row>
                                     <Col md="3">
                                     <Label htmlFor="Name">Name :</Label>
                                     </Col>
@@ -169,21 +136,85 @@ class Company extends Component{
                                     <Input type="text" id="loc"/>
                                     </Col>
                                 </FormGroup>
-                                <Row>
-                                    <Col md="10"></Col>
-                                <Col md="2">
-                                    
+                                <FormGroup row>
+                                    <Col md="3">
+                                    <Label htmlFor="description">Description :</Label>
                                     </Col>
-                                </Row>
+                                    <Col md="8">
+                                    <Input type="textarea" id="description"/>
+                                    </Col>
+                                </FormGroup>
+                            </Col>
+                            <Col md="6">
+                            <FormGroup row>
+                                    <Col md="3">
+                                    <Label htmlFor="phone">Phone :</Label>
+                                    </Col>
+                                    <Col md="8">
+                                    <Input type="text" id="phone" />
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Col md="3">
+                                    <Label htmlFor="category">Category :</Label>
+                                    </Col>
+                                    <Col md="8">
+                                    <Input type="select" id="category">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    </Input>
+                                    </Col>
+                                </FormGroup>
+                            </Col>
+                        </Row>
                                     </Form>
-                            
-                  </ModalBody>
-                  <ModalFooter>
+                    </CardBody>
+                    <CardFooter>
+                        
                   <Button type="button" size="md" color="primary"  onClick={this.addCompany} >Add</Button>{' '}
                     <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                  </ModalFooter>
-                  
-                </Modal>
+                    </CardFooter>
+                </Card>
+                </Col>
+            </Row>
+               <Row>
+               <Col md="2"></Col>
+               <Col md="8">
+                   <br/>
+                   <Card>
+                       <CardHeader><h3>Companies</h3></CardHeader>
+                       <CardBody>
+                
+                   <Table striped>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Location</th>
+                        <th>Description</th>
+                    </tr>
+                    {
+                        
+                        this.state.companies.map((country,i)=>{
+                            
+                            
+                            i++;
+                            return(
+                                <tr>
+                                    <td>{i}</td>
+                                    <td>{country.CompanyName}</td>
+                                    <td>{country.CompanyPhone}</td>
+                                    <td>{country.CompanyLocation}</td>
+                                    <td>{country.CompanyDescription}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                   </Table>
+                   </CardBody>
+                   </Card>
+               </Col>
+               </Row>
                 <Modal isOpen={this.state.success} toggle={this.toggleSuccess}
                        className={'modal-success ' + this.props.className}>
                   <ModalHeader toggle={this.toggleSuccess}>Success</ModalHeader>

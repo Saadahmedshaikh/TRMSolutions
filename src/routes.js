@@ -4,8 +4,9 @@ import Login from './views/Pages/Login/Login';
 import Equipment from './views/EquipmentManagement/Equipment';
 import EquipmentDetails from './views/EquipmentManagement/EquipmentDetails';
 import Company from './views/Company/Company';
-import AddUser from './views/User/AddUser';
+import User from './views/User/User';
 import UserList from './views/User/UserList';
+import Industry from './views/Industry/Industry';
 
 const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/Base/Cards'));
@@ -41,7 +42,6 @@ const Colors = React.lazy(() => import('./views/Theme/Colors'));
 const Typography = React.lazy(() => import('./views/Theme/Typography'));
 const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
-const User = React.lazy(() => import('./views/Users/User'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -90,8 +90,8 @@ const routes = [
   { path: '/EquipmentManagement/Equipment', name: 'Equipment', component: Equipment },
   { path: '/EquipmentManagement/EquipmentDetails', name: 'EquipmentDetails', component: EquipmentDetails },
   { path: '/Company', name: 'Company', component: Company },
-  { path: '/AddUser', name: 'AddUser', component: AddUser },
-  { path: '/UserList', name: 'UserList', component: UserList },
+  { path: '/User', name: 'User', component: User },
+  { path: '/Industry', name: 'Industry', component: Industry },
 ];
 
 export default routes;
