@@ -41,7 +41,7 @@ class Equipment extends Component{
         })
     }
     render(){
-        if(this.state.flag){
+        if(this.state.newflag){
             return( 
            
              <Redirect
@@ -50,7 +50,7 @@ class Equipment extends Component{
            
             )
         }
-        if(this.state.newflag){
+        if(this.state.flag){
             return( 
            
              <Redirect
@@ -99,15 +99,15 @@ class Equipment extends Component{
                         this.state.equipments.map(eq =>{
                             return(
                     <tr id="hoverrow" onClick={()=>this.viewDetails(eq.EquipmentID)}>
-                        <td><Badge size="lg" color="primary">{eq.EquipmentCategoryName}</Badge></td>
-                        <td>{eq.EquipmentName}</td>
-                        <td>{eq.EquipmentMake}</td>
-                        <td>{eq.EquipmentModel}</td>
-                        <td>{eq.EquipmentRange}</td>
-                        <td>{eq.EquipmentAccuracy}</td>
-                        <td>{eq.EquipmentOthers}</td>
-                        <td>{eq.EquipmentLocation}</td>
-                        <td>{eq.EquipmentFamilyName}</td>
+                        <td id="tableth"><Badge size="lg" color="primary">{eq.EquipmentCategoryName}</Badge></td>
+                        <td id="tableth">{eq.EquipmentName}</td>
+                        <td id="tableth">{eq.EquipmentMake}</td>
+                        <td id="tableth">{eq.EquipmentModel}</td>
+                        <td id="tableth">{eq.EquipmentRange}</td>
+                        <td id="tableth">{eq.EquipmentAccuracy}</td>
+                        <td id="tableth">{eq.EquipmentOthers}</td>
+                        <td id="tableth">{eq.EquipmentLocation}</td>
+                        <td id="tableth">{eq.EquipmentFamilyName}</td>
                     </tr>
                             )
                         })
