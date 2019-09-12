@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { Scrollbars } from 'react-custom-scrollbars';
 import {
     Badge,
     Button,
@@ -40,8 +41,8 @@ constructor(props){
             companyid:'',
             success:false,
             danger:false,
-            flag:false
-            
+            flag:false,
+            userid:''
         }
     var icon =<i class="cui-magnifying-glass icons">Search</i>;
     this.onSubmit = this.onSubmit.bind(this);
@@ -52,6 +53,7 @@ constructor(props){
     this.onSuccess = this.onSuccess.bind(this);
     this.search = this.search.bind(this);
     this.delete = this.delete.bind(this);
+    this.onDismiss=this.onDismiss.bind(this);
     console.log(localStorage.getItem("name"));
 }
 toggleDanger() {
@@ -111,10 +113,19 @@ onSuccess(event){
         success:!this.state.success
     })
     this.componentDidMount();
-    document.getElementById("form1").reset();
+   
+}
+onClear(event){
+    this.setState({
+        userid:""
+    })
+    document.getElementById("company").disabled=false;
+            document.getElementById("loginid").disabled=false;
+            document.getElementById("email").disabled=false;
+             document.getElementById("form1").reset();
 }
 onSubmit=(event)=>{
-    
+    event.preventDefault();
     const user = {
         "CompanyUserLoginID":this.state.loginid,
         "CompanyUserPassword":this.state.password,
@@ -134,23 +145,41 @@ if(response.status=='201'){
         er:response.status
     })
     this.toggleSuccess();
-    
+    this.onClear();
 }
-// if(typeof response.data.InnerException != 'undefined'  ){
-//     const error =  response.data.InnerException.InnerException.Message;
-//     this.setState({
-//         er:error
-//     })
-//     this.toggleDanger();
-// }else{
-   
-//}
+
 }).catch(error=>{
     this.toggleDanger();
 })
 
    
     
+}
+onUpdate=(event)=>{
+    const user = {
+        "CompanyUserLoginID":this.state.userid,
+        "CompanyUserPassword":this.state.password,
+        "CompanyUserName":this.state.name,
+        "CompanyUserPhone":this.state.phone,
+        "CompanyUserEmail":this.state.email,
+        "CompanyUserStatus":this.state.status,
+        "UserRoleID":this.state.role,
+        "CompanyID":this.state.companyid
+    }
+    Axios.post("http://localhost:37329/User/Update",user)
+.then(response=> {
+    console.log(response);
+if(response.status=='201'){
+    this.setState({
+        er:response.status
+    })
+    this.toggleSuccess();
+    this.onClear();
+}
+
+}).catch(error=>{
+    this.toggleDanger();
+})
 }
 delete(event){
 Axios.delete('http://localhost:37329/User/delete/'+event)
@@ -160,13 +189,43 @@ Axios.delete('http://localhost:37329/User/delete/'+event)
             er:response.status
         })
         this.toggleSuccess();
+        this.onClear();
     }
     
 })
 }
 
 edit(event){
-    alert("are u sure ?"+event);
+    this.setState({
+        userid:event
+    })
+    Axios.get('http://localhost:37329/User/getUser/'+event)
+        .then(response=>{
+           const temp = JSON.parse(response.data);
+            this.setState({
+                password:temp[0].CompanyUserPassword,
+                status:temp[0].CompanyUserStatus,
+                email:temp[0].CompanyUserEmail,
+                name:temp[0].CompanyUserName,
+                phone:temp[0].CompanyUserPhone,
+                companyid:temp[0].CompanyID,
+                role:temp[0].UserRoleID
+
+            });
+            console.log(temp);
+            document.getElementById("company").disabled=true;
+            document.getElementById("loginid").disabled=true;
+            document.getElementById("email").disabled=true;
+            document.getElementById("loginid").value=event;
+            document.getElementById("password").value=this.state.password;
+            document.getElementById("email").value=this.state.email;
+            document.getElementById("name").value=this.state.name;
+            document.getElementById("phone").value=this.state.phone;
+          console.log(this.state.status);
+            // document.getElementsByClassName("status").value=this.state.status;
+             this.state.status==1?document.getElementById("active").checked=true:document.getElementById("inactive").checked=true;
+        })
+        console.log(this.state.password);
     }
 
 handleChange(event){
@@ -178,13 +237,13 @@ handleChange(event){
          [nam]:val
      })
 }
-onClear(event){
+onDismiss(event){
    
     
     this.setState({
         danger:false
     })
-    document.getElementById("form1").reset();
+   this.onClear();
 }
 
 render(){
@@ -198,7 +257,7 @@ render(){
         <Row>
             <Col md="2"></Col>
             <Col md="8">
-            <Form className="form-horizontal" id="form1" >
+            <Form className="form-horizontal" id="form1" onSubmit={this.onSubmit}>
                 <Card>
                     <CardHeader>New User</CardHeader>
                     <CardBody>
@@ -219,7 +278,7 @@ render(){
                                              <Label htmlFor="password">Password</Label>
                                         </Col>
                                         <Col xs="8" md="8">
-                                            <Input type="password" name="password" id="password"  onChange={this.handleChange}  required/>
+                                            <Input type="password" name="password" id="password"   onChange={this.handleChange}  required/>
                                         </Col>
                                     </FormGroup>
 
@@ -271,7 +330,7 @@ render(){
                                                 <Label htmlFor="userroleid">Role</Label>
                                             </Col>
                                             <Col xs="8" md="8">
-                                                <Input type="select" id="userroleid" name="userroleid" onChange={this.handleChange}>
+                                                <Input type="select" id="userroleid" name="userroleid" value={this.state.role} onChange={this.handleChange}>
                                                 <option value="">Please select a role</option>
                                                 {
                                                         this.state.roles.map((role)=>{
@@ -289,7 +348,7 @@ render(){
                                                 <Label htmlFor="company">Company</Label>
                                             </Col>
                                             <Col xs="8" md="8">
-                                                <Input type="select" id="company" name="companyid" onChange={this.handleChange}>
+                                                <Input type="select" id="company" name="companyid" value={this.state.companyid} onChange={this.handleChange}>
                                                     <option value="">Please select a company</option>
                                                     {
                                                         this.state.companies.map((company)=>{
@@ -309,7 +368,9 @@ render(){
                         
                     </CardBody>
                     <CardFooter>
-                    <Button type="button" color="primary" onClick={this.onSubmit} size="lg">Add User</Button>
+                    {this.state.userid==""?<Button type="submit" color="primary"  size="lg">Add User</Button>
+                    :<Button type="button" color="warning" onClick={this.onUpdate} size="lg">Update User</Button>}
+                    {' '}<Button type="button" onClick={this.onClear} size="lg" color="danger">Clear</Button>
                     </CardFooter>
                 </Card>
                 </Form>
@@ -339,7 +400,7 @@ render(){
                            
                            </CardHeader>
                        <CardBody>
-                
+                       <Scrollbars style={{ height: 300 }}>
                    <Table striped id="example">
                     <tr>
                         <th>S.No</th>
@@ -372,6 +433,7 @@ render(){
                         })
                     }
                    </Table>
+                   </Scrollbars>
                    </CardBody>
                    </Card>
                </Col>
@@ -396,7 +458,7 @@ render(){
                     Something Went Wrong
                   </ModalBody>
                   <ModalFooter>
-                  <Button type="button" color="danger" onClick={this.onClear}>Ok</Button>
+                  <Button type="button" color="danger" onClick={this.onDismiss}>Ok</Button>
                   </ModalFooter>
                 </Modal>
 

@@ -7,6 +7,8 @@ import Company from './views/Company/Company';
 import User from './views/User/User';
 import UserList from './views/User/UserList';
 import Industry from './views/Industry/Industry';
+import Schedule from './views/EquipmentSchedule/Schedule';
+import EquipmentCategory from './views/EquipmentManagement/EquipmentCategory';
 
 const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/Base/Cards'));
@@ -45,7 +47,7 @@ const Users = React.lazy(() => import('./views/Users/Users'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
-  { path: '/', exact: true, name: 'Login', component:Login },
+  { path: '/', exact: true, name: 'Home', component:Login },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
@@ -92,6 +94,8 @@ const routes = [
   { path: '/Company', name: 'Company', component: Company },
   { path: '/User', name: 'User', component: User },
   { path: '/Industry', name: 'Industry', component: Industry },
+  { path: '/EquipmentManagement/Schedule', name: 'Schedule', component: Schedule },
+  { path: '/EquipmentManagement/EquipmentCategory', name: 'EquipmentCategory', component: EquipmentCategory },
 ];
 
 export default routes;

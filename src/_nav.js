@@ -14,7 +14,7 @@ export default {
       children: [
         {
           name: 'Equipment Category',
-           url: '/Dashboard',
+           url: '/EquipmentManagement/EquipmentCategory',
           icon: 'icon-arrow-right',
         },
         {

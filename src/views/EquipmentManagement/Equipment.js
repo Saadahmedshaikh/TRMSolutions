@@ -4,7 +4,7 @@ import './style.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { Redirect } from 'react-router-dom';
-import { Row,Col,Table,Card,CardBody,CardFooter,CardHeader,Badge,Button } from "reactstrap";
+import { Row,Col,Table,Card,CardBody,CardHeader,Badge,Button } from "reactstrap";
 class Equipment extends Component{
     constructor(props){
         super(props);

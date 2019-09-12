@@ -19,10 +19,11 @@ import {
   ModalBody,
     ModalHeader
 } from 'reactstrap';
+import './style.css';
 class EquipmentDetails extends Component{
 
-constructor(){
-  super();
+constructor(props){
+  super(props);
   this.state={
     Schedule:[],
     equipmentid:'',
@@ -48,12 +49,22 @@ constructor(){
     InpectionDuration:'',
     Interval:'',
     Margin:'',
-    Alert:''
+    Alert:'',
+    SName:'',
+    SuccessFlag:false,
+    equipmentscheduleid:''
   }
   this.handleChange=this.handleChange.bind(this);
   this.btnAdd=this.btnAdd.bind(this);
   this.btnUpdate=this.btnUpdate.bind(this);
   this.Calculate=this.Calculate.bind(this);
+  this.addSchedule=this.addSchedule.bind(this);
+  this.viewDetails=this.viewDetails.bind(this);
+}
+viewDetails(id){
+  this.setState({
+      SuccessFlag:true
+  })
 }
 enableCalender(){
   document.getElementById("CInterval").disabled=false;
@@ -82,6 +93,36 @@ enableMeter(){
   // document.getElementById("CAlertMargin").value="";
   // document.getElementById("CLeverage").value="";
   // document.getElementById("CInterval").value="";
+}
+addSchedule(event){
+ if(this.state.equipmentid==""){
+alert("cant add schedule");
+ }else{
+var newschedule={
+  "EquipmentScheduleID":"",
+  "EquipmentScheduleName":this.state.SName,
+  "EquipmentScheduleBasis":this.state.SBasis,
+  "EquipmentScheduleType":this.state.SType,
+  "InspectionDuration":this.state.InpectionDuration,
+  "LastInspectionDate":"",
+  "NextInspectionDate":"",
+  "Margin":this.state.Margin,
+  "Interval":this.state.Interval,
+  "Leverage":this.state.Leverage,
+  "EquipmentID":this.state.equipmentid
+}
+Axios.post('http://localhost:37329/Schedule/AddNew',newschedule)
+.then(response=> {
+  console.log(response);
+  if(response.status=="201"){
+   alert("success");
+   this.setState({
+     equipmentscheduleid:response.data.EquipmentScheduleID,
+     SuccessFlag:true
+   })
+}
+})
+ }
 }
 componentDidMount(){
   Axios.get('http://localhost:37329/Equipment/getAllCategories')
@@ -241,10 +282,10 @@ if(event.target.value=="1"){
 this.setState({
   InpectionDuration:event.target.value,
   Interval:interval,
-  Alert:alert,
+  Margin:alert,
   Leverage:leverage
 })
-console.log(this.state.InpectionDuration);
+console.log(this.state.Interval);
 }
 btnUpdate(event){
   
@@ -273,6 +314,19 @@ onChange(){
   
 }
 render(){
+  if(this.state.SuccessFlag){
+    return( 
+           
+      <Redirect
+      to={{
+         pathname: "/EquipmentManagement/Schedule/",
+         state: { id: this.state.equipmentid }
+     }}
+      />
+    
+     )
+     
+  }
   if(this.state.redirect){
     return(
       <Redirect to="Equipment"/>
@@ -440,7 +494,7 @@ render(){
                           <Label htmlFor="SName">Name</Label>
                           </Col>
                           <Col xs="8" md="8">
-                          <Input type="text" id="SName" size="sm"/>
+                          <Input type="text" id="SName" size="sm" onChange={this.handleChange}/>
                           </Col>
                       </FormGroup>
                       <FormGroup row>
@@ -525,7 +579,7 @@ render(){
                       <Row>
                       <Col md="9"></Col>
                       <Col md="3">
-                      <Button type="button" size="sm" color="primary">Add Schedule</Button>
+                      <Button type="button" size="sm" color="primary" onClick={this.addSchedule}>Add Schedule</Button>
                       </Col>
                       </Row>
                       </CardBody>
@@ -594,7 +648,7 @@ render(){
                   {
                   this.state.Schedule.map((schedule) =>{
                     return(
-                      <tr>
+                      <tr id="hoverrow" onClick={()=>this.viewDetails()}>
                         <td>{schedule.EquipmentScheduleName}</td>
                         <td>{schedule.EquipmentScheduleType}</td>
                         <td>{schedule.EquipmentScheduleBasis}</td>

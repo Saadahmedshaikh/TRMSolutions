@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import {
-    Badge,
     Button,
     Card,
     CardBody,
@@ -30,11 +29,18 @@ class Company extends Component{
             success:false,
             danger:false,
             redirect:false,
-            i:1
+            i:1,
+            name:'',
+            location:'',
+            description:'',
+            phone:'',
+            category:''
         
         }
         this.toggleSuccess = this.toggleSuccess.bind(this);
         this.toggleDanger = this.toggleDanger.bind(this);
+        this.addCompany = this.addCompany.bind(this);
+        this.handleChange=this.handleChange.bind(this);
     }
       toggleSuccess() {
         this.setState({
@@ -61,17 +67,13 @@ class Company extends Component{
     }
 
     addCompany=(event)=>{
-      
-        var name = document.getElementById("Name").value;
-        var loc = document.getElementById("loc").value;
-        var desc = document.getElementById("description").value;
-        var phone = document.getElementById("phone").value;
+        event.preventDefault();
            const company = {
                "CompanyID":"",
-               "CompanyName":name,
-               "CompanyLocation":loc,
-               "CompanyDescription":desc,
-               "CompanyPhone":phone
+               "CompanyName":this.state.name,
+               "CompanyLocation":this.state.location,
+               "CompanyDescription":this.state.description,
+               "CompanyPhone":this.state.phone
            }
            
            Axios.post("http://localhost:37329/Country/Add",company)
@@ -96,7 +98,16 @@ class Company extends Component{
       this.toggleSuccess();
       this.componentDidMount();
     }
-
+    handleChange(event){
+        let nam = event.target.name;
+        let val = event.target.value;
+       console.log(nam);
+       console.log(val);
+       this.setState({
+        [nam]:val
+    })
+       
+    }
     render(){
         if(this.state.redirect){
             return(
@@ -112,12 +123,13 @@ class Company extends Component{
 
                 </Col>
                 <Col md="8">
+                <Form className="form-horizontal" id="form1" onSubmit={this.addCompany}>
                 <Card>
                     <CardHeader>
                     <h3>New Company</h3>
                     </CardHeader>
                     <CardBody>
-                    <Form className="form-horizontal" id="form1">
+                  
                         <Row>
                             <Col md="6">
                             <FormGroup row>
@@ -125,7 +137,7 @@ class Company extends Component{
                                     <Label htmlFor="Name">Name :</Label>
                                     </Col>
                                     <Col md="8">
-                                    <Input type="text" id="Name" />
+                                    <Input type="text" id="Name" name="name" required onChange={this.handleChange}/>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -133,7 +145,7 @@ class Company extends Component{
                                     <Label htmlFor="loc">Location :</Label>
                                     </Col>
                                     <Col md="8">
-                                    <Input type="text" id="loc"/>
+                                    <Input type="text" id="loc" name="location" required onChange={this.handleChange}/>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -141,7 +153,7 @@ class Company extends Component{
                                     <Label htmlFor="description">Description :</Label>
                                     </Col>
                                     <Col md="8">
-                                    <Input type="textarea" id="description"/>
+                                    <Input type="textarea" id="description" name="description" onChange={this.handleChange}/>
                                     </Col>
                                 </FormGroup>
                             </Col>
@@ -151,7 +163,7 @@ class Company extends Component{
                                     <Label htmlFor="phone">Phone :</Label>
                                     </Col>
                                     <Col md="8">
-                                    <Input type="text" id="phone" />
+                                    <Input type="text" id="phone" name="phone" onChange={this.handleChange} />
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -159,7 +171,7 @@ class Company extends Component{
                                     <Label htmlFor="category">Category :</Label>
                                     </Col>
                                     <Col md="8">
-                                    <Input type="select" id="category">
+                                    <Input type="select" id="category" name="category" onChange={this.handleChange}>
                                     <option>1</option>
                                     <option>2</option>
                                     </Input>
@@ -167,14 +179,15 @@ class Company extends Component{
                                 </FormGroup>
                             </Col>
                         </Row>
-                                    </Form>
+                                    
                     </CardBody>
                     <CardFooter>
                         
-                  <Button type="button" size="md" color="primary"  onClick={this.addCompany} >Add</Button>{' '}
-                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                  <Button type="submit" size="md" color="primary" >Add</Button>{' '}
+                    <Button color="danger" type="reset">Cancel</Button>
                     </CardFooter>
                 </Card>
+                </Form>
                 </Col>
             </Row>
                <Row>

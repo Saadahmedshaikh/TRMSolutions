@@ -6,20 +6,10 @@ import {
     Button,
     Card,
     CardBody,
-    CardFooter,
     CardHeader,
     Col,
-    Form,
-    FormGroup,
-    Input,
-    Label,
     Row,
-    Table,
-    Modal, 
-    ModalBody,
-      ModalHeader
-,
-ModalFooter  } from 'reactstrap';
+    Table } from 'reactstrap';
 class UserList extends Component{
     constructor(){
         super();
