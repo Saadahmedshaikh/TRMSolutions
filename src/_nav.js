@@ -18,35 +18,10 @@ export default {
           icon: 'icon-arrow-right',
         },
         {
-          name: 'Equipment Specs Category',
-           url: '/Dashboard',
-          icon: 'icon-arrow-right',
-        },
-        {
           name: 'Equipment',
            url: '/EquipmentManagement/Equipment',
           icon: 'icon-arrow-right',
         },
-        {
-          name: 'Equipment One Time Job',
-           url: '/Dashboard',
-          icon: 'icon-arrow-right',
-        },
-        {
-          name: 'Rig Equipment Schedule',
-           url: '/Dashboard',
-          icon: 'icon-arrow-right',
-        },
-        {
-          name: 'Equipment Rig Assignment',
-           url: '/Dashboard',
-          icon: 'icon-arrow-right',
-        },
-        {
-          name: 'Misc. Equip Rig Assignment',
-           url: '/Dashboard',
-          icon: 'icon-arrow-right',
-        }
       ]
     },
     

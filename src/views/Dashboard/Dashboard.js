@@ -466,6 +466,7 @@ class Dashboard extends Component {
       equipments:'',
       dropdownOpen: false,
       radioSelected: 2,
+      companies:''
     };
   }
   componentDidMount(){
@@ -486,6 +487,14 @@ class Dashboard extends Component {
       this.setState({
         equipments:response.data
       })
+    })
+    Axios.get('http://localhost:37329/Company/getall')
+    .then(response=>{
+       const temp = JSON.parse(response.data);
+        this.setState({
+            companies:temp
+        });
+        console.log(this.state.companies[0].CompanyName);
     })
     console.log(this.state.count);
   //document.getElementById("countuser").innerHTML=this.state.count;
@@ -509,7 +518,7 @@ class Dashboard extends Component {
 
     return (
       <div className="animated fadeIn">
-        <Row>
+               <Row>
           <Col xs="12" sm="6" lg="3">
             <Card className="text-white bg-info">
               <CardBody className="pb-0">
@@ -519,15 +528,13 @@ class Dashboard extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem disabled>Disabled action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
+                        <DropdownItem>1</DropdownItem>
+                      
                     </DropdownMenu>
                   </ButtonDropdown>
                 </ButtonGroup>
                 <div className="text-value">{this.state.count}</div>
-                <div>Total Companies</div>
+                <div>Total Companies </div>
               </CardBody>
               <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
                 <Line data={cardChartData2} options={cardChartOpts2} height={70} />

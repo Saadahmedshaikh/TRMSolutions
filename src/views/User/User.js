@@ -110,7 +110,9 @@ componentDidMount(){
 }
 onSuccess(event){
     this.setState({
-        success:!this.state.success
+        success:!this.state.success,
+        role:"",
+        companyid:""
     })
     this.componentDidMount();
    
