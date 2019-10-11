@@ -5,7 +5,6 @@ import Equipment from './views/EquipmentManagement/Equipment';
 import EquipmentDetails from './views/EquipmentManagement/EquipmentDetails';
 import Company from './views/Company/Company';
 import User from './views/User/User';
-import UserList from './views/User/UserList';
 import Industry from './views/Industry/Industry';
 import Schedule from './views/EquipmentSchedule/Schedule';
 import EquipmentCategory from './views/EquipmentManagement/EquipmentCategory';
@@ -48,7 +47,7 @@ const Users = React.lazy(() => import('./views/Users/Users'));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component:Login },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/dashboard', exact:true, name: 'Dashboard', component: Dashboard },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },
@@ -90,11 +89,12 @@ const routes = [
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/RigStatus', name: 'RigStatus', component: RigStatus },
   { path: '/EquipmentManagement/Equipment', name: 'Equipment', component: Equipment },
-  { path: '/EquipmentManagement/EquipmentDetails', name: 'EquipmentDetails', component: EquipmentDetails },
+  { path: '/EquipmentManagement/EquipmentDetails', name: 'Equipment / EquipmentDetails', component: EquipmentDetails },
   { path: '/Company', name: 'Company', component: Company },
   { path: '/User', name: 'User', component: User },
+  { path: '/UserList', name: 'UserList', component: User },
   { path: '/Industry', name: 'Industry', component: Industry },
-  { path: '/EquipmentManagement/Schedule', name: 'Schedule', component: Schedule },
+  { path: '/EquipmentManagement/Schedule', name: 'test', component: Schedule },
   { path: '/EquipmentManagement/EquipmentCategory', name: 'EquipmentCategory', component: EquipmentCategory },
 ];
 

@@ -34,7 +34,8 @@ class Company extends Component{
             location:'',
             description:'',
             phone:'',
-            category:''
+            category:'',
+            failed:false
         
         }
         this.toggleSuccess = this.toggleSuccess.bind(this);
@@ -57,6 +58,11 @@ class Company extends Component{
 
       }
     componentDidMount(){
+        var a =sessionStorage.getItem("username");
+    
+    if(a == null){
+      this.setState({failed:true})
+    }
         Axios.get('http://localhost:37329/Company/getall')
         .then(response=>{
            const temp = JSON.parse(response.data);
@@ -109,6 +115,11 @@ class Company extends Component{
        
     }
     render(){
+        if(this.state.failed){
+            return(
+              <Redirect to="/"/>
+            )
+          }
         if(this.state.redirect){
             return(
                 <Redirect to="/Company"/>

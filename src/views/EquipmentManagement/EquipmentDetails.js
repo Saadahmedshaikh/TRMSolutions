@@ -52,7 +52,9 @@ constructor(props){
     Alert:'',
     SName:'',
     SuccessFlag:false,
+    cancelFlag:false,
     equipmentscheduleid:''
+    ,failed:false
   }
   this.handleChange=this.handleChange.bind(this);
   this.btnAdd=this.btnAdd.bind(this);
@@ -60,11 +62,18 @@ constructor(props){
   this.Calculate=this.Calculate.bind(this);
   this.addSchedule=this.addSchedule.bind(this);
   this.viewDetails=this.viewDetails.bind(this);
+  this.btnCancel=this.btnCancel.bind(this);
 }
+
 viewDetails(id){
   this.setState({
       SuccessFlag:true
   })
+}
+btnCancel(event){
+this.setState({
+  cancelFlag:true
+})
 }
 enableCalender(){
   document.getElementById("CInterval").disabled=false;
@@ -125,6 +134,11 @@ Axios.post('http://localhost:37329/Schedule/AddNew',newschedule)
  }
 }
 componentDidMount(){
+  var a =sessionStorage.getItem("username");
+    
+  if(a == null){
+    this.setState({failed:true})
+  }
   Axios.get('http://localhost:37329/Equipment/getAllCategories')
        .then(response =>{
            const parsed = JSON.parse(response.data);
@@ -327,6 +341,19 @@ render(){
      )
      
   }
+  if(this.state.failed){
+    return(
+      <Redirect to="/"/>
+    )
+  }
+  if(this.state.cancelFlag){
+    return( 
+           
+      <Redirect to="Equipment"/>
+    
+     )
+     
+  }
   if(this.state.redirect){
     return(
       <Redirect to="Equipment"/>
@@ -472,7 +499,7 @@ render(){
       </CardBody>
                   <CardFooter>
                     {(this.state.updateflag)?<Button type="button" onClick={this.btnUpdate} color="warning">Update</Button>:<Button type="button" onClick={this.btnAdd} color="success">Add</Button>}
-                    {' '}<Button type="button" color="primary">Cancel</Button>
+                    {' '}<Button type="button" color="primary" onClick={this.btnCancel}>Cancel</Button>
                   </CardFooter>
              </Card>
              </Form>

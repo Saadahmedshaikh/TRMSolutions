@@ -13,11 +13,17 @@ class Equipment extends Component{
             equipmentid:'',
             flag:false,
             newflag:false
+            ,failed:false
         }
         this.viewDetails=this.viewDetails.bind(this);
         this.onAddNew = this.onAddNew.bind(this);
     }
     componentDidMount(){
+        var a =sessionStorage.getItem("username");
+    
+        if(a == null){
+          this.setState({failed:true})
+        }
         Axios.get('http://localhost:37329/Equipment/getequipment')
         .then(response => {
             const parsed = JSON.parse(response.data)
@@ -41,6 +47,11 @@ class Equipment extends Component{
         })
     }
     render(){
+        if(this.state.failed){
+            return(
+              <Redirect to="/"/>
+            )
+          }
         if(this.state.newflag){
             return( 
            

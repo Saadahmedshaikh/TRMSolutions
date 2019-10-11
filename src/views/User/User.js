@@ -42,7 +42,8 @@ constructor(props){
             success:false,
             danger:false,
             flag:false,
-            userid:''
+            userid:'',
+            failed:false
         }
     var icon =<i class="cui-magnifying-glass icons">Search</i>;
     this.onSubmit = this.onSubmit.bind(this);
@@ -82,6 +83,11 @@ search(event){
     
 }
 componentDidMount(){
+    var a =sessionStorage.getItem("username");
+    
+    if(a == null){
+      this.setState({failed:true})
+    }
     
     Axios.get('http://localhost:37329/Roles/getRoleNames')
     .then(response=> {
@@ -119,12 +125,16 @@ onSuccess(event){
 }
 onClear(event){
     this.setState({
-        userid:""
+        userid:"",
+        companyid:"",
+        role:""
     })
     document.getElementById("company").disabled=false;
             document.getElementById("loginid").disabled=false;
             document.getElementById("email").disabled=false;
+            document.getElementById("userroleid").disabled=false;
              document.getElementById("form1").reset();
+             document.getElementById("company").value="";
 }
 onSubmit=(event)=>{
     event.preventDefault();
@@ -223,6 +233,7 @@ edit(event){
             document.getElementById("email").value=this.state.email;
             document.getElementById("name").value=this.state.name;
             document.getElementById("phone").value=this.state.phone;
+            document.getElementById("userroleid").disabled=true;
           console.log(this.state.status);
             // document.getElementsByClassName("status").value=this.state.status;
              this.state.status==1?document.getElementById("active").checked=true:document.getElementById("inactive").checked=true;
@@ -249,6 +260,11 @@ onDismiss(event){
 }
 
 render(){
+    if(this.state.failed){
+        return(
+          <Redirect to="/"/>
+        )
+      }
     if(this.state.flag){
         return(
             <Redirect to="/UserList"/>

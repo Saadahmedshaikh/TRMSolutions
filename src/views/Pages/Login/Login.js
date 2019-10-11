@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Button,Modal,ModalHeader,ModalBody,ModalFooter, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import { Redirect } from 'react-router-dom'
 import { AppSidebar } from '@coreui/react';
+import Axios from 'axios';
 class Login extends Component {
   
   constructor(props){
@@ -11,8 +11,12 @@ class Login extends Component {
     this.state={
       username:"",
       password:"",
-      flag:false
+      flag:false,
+      error:false,
+      success:false
+    
     }
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -25,14 +29,28 @@ class Login extends Component {
     
   }
   handleSubmit(event) {
-    if(this.state.username=="admin" && this.state.password == "admin"){
-    alert('Welcome '+this.state.username);
-  this.setState({
-    flag:true
-  })
-    }else{
-      alert('Incorrect username or password');
+    var login={
+      "Username":this.state.username,
+      "Password":this.state.password
     }
+    Axios.post("http://localhost:37329/USer/login",login).
+    then(response =>{
+      console.log(response);
+      if(response.data){
+        sessionStorage.setItem("username",this.state.username);
+        this.setState({
+          success:true
+
+        })
+        
+      }
+      else{
+        this.setState({
+          error:true
+        })
+      }
+    })
+    
   }
   render() {
     
@@ -89,6 +107,26 @@ class Login extends Component {
             </Col>
           </Row>
         </Container>
+        <Modal isOpen={this.state.error} 
+                       className={'modal-danger ' + this.props.className}>
+                  <ModalHeader toggle={this.toggleDanger}>Login Unsuccessful</ModalHeader>
+                  <ModalBody>
+                   Something went Wrongs
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="danger" onClick={()=>this.setState({error:!this.state.error})}>Ok</Button>
+                  </ModalFooter>
+                </Modal>
+                <Modal isOpen={this.state.success} 
+                       className={'modal-success ' + this.props.className}>
+                  <ModalHeader toggle={this.toggleDanger}>Login Successful</ModalHeader>
+                  <ModalBody>
+                   Welcome back, {this.state.username} ! 
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="success" onClick={()=>this.setState({success:!this.state.success,flag:true})}>Continue</Button>
+                  </ModalFooter>
+                </Modal>
       </div>
     );
   }

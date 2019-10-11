@@ -1,6 +1,7 @@
 import React,{ Component } from "react";
 import  Axios from "axios";
 import { Scrollbars } from 'react-custom-scrollbars';
+import { Redirect } from "react-router-dom";
 import {
     Badge,
     Button,
@@ -36,6 +37,7 @@ import {
               danger:false,
               catid:'',
               editflag:false
+              ,failed:false
           }
          this.toggleSuccess = this.toggleSuccess.bind(this);
          this.toggleDanger = this.toggleDanger.bind(this);
@@ -170,6 +172,11 @@ console.log(response);
    }
       
 componentDidMount(){
+  var a =sessionStorage.getItem("username");
+    
+  if(a == null){
+    this.setState({failed:true})
+  }
     Axios.get("http://localhost:37329/Categories/getAll")
     .then(response => {
         const temp = JSON.parse(response.data);
@@ -181,6 +188,12 @@ componentDidMount(){
 }
 
     render(){
+      
+ if(this.state.failed){
+  return(
+    <Redirect to="/"/>
+  )
+}
 
         return(
             <>
